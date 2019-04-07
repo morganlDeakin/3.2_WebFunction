@@ -1,0 +1,82 @@
+int ledB = D6;
+int ledG = D5;
+int ledR = D4;
+
+bool ledROn = true;
+bool ledGOn = true;
+bool ledBOn = true;
+
+
+void setup() 
+{
+	pinMode(ledB, OUTPUT);
+	pinMode(ledG, OUTPUT);
+	pinMode(ledR, OUTPUT);
+	digitalWrite(ledB, HIGH);
+	digitalWrite(ledG, HIGH);
+	digitalWrite(ledR, HIGH);
+	
+	Particle.function("led", ledToggle);
+}
+
+void loop() 
+{
+}
+
+int ledToggle(String color)
+{
+    int n = color.length();
+    char colors[n + 1];
+    strcpy(colors, color.c_str());
+    char * pch;
+    pch = strtok (colors,",");
+    while (pch != NULL)
+    {
+       toggle(pch);
+       pch = strtok (NULL, ",");
+    }
+    return 0;
+}
+
+void toggle(String color)
+{
+    if(strcmp(color,"red")==0)
+    {
+        if(ledROn == true)
+        {
+            digitalWrite(ledR, LOW);
+            ledROn = false;
+        }
+        else
+        {
+            digitalWrite(ledR, HIGH);
+            ledROn = true;
+        }
+    }
+    if(strcmp(color,"blue")==0)
+    {
+        if(ledBOn == true)
+        {
+            digitalWrite(ledB, LOW);
+            ledBOn = false;
+        }
+        else
+        {
+            digitalWrite(ledB, HIGH);
+            ledBOn = true;
+        }
+    }
+    if(strcmp(color,"green")==0)
+    {
+        if(ledGOn == true)
+        {
+            digitalWrite(ledG, LOW);
+            ledGOn = false;
+        }
+        else
+        {
+            digitalWrite(ledG, HIGH);
+            ledGOn = true;
+        }
+    }
+}
